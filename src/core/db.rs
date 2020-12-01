@@ -556,18 +556,28 @@ impl Collection {
             let (solid, dashed) =
                 self.build_dependencies_for_csv(collected_item_name, collected_item_data);
 
+            let deps = collected_item_data.fields.join("<br>");
+
             result.push_str(
                 format!(
-                    "{},{},{},{:?},{:?}\n",
+                    "{},{},{},{:?},{:?},{:?},{:?}\n",
                     collected_item_name,
                     collected_item_data.r#type.to_string(),
                     collected_item_data.get_color().to_string(),
                     solid.join(","),
+                    //refs2 - dashed
                     if only_json {
                         "".to_string()
                     } else {
                         dashed.join(",")
                     },
+                    //refs3 - invisible
+                    if only_json {
+                        dashed.join(",")
+                    } else {
+                        "".to_string()
+                    },
+                    deps,
                 )
                 .as_str(),
             );
